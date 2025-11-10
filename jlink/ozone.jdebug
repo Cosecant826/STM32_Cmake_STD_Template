@@ -1,0 +1,9 @@
+void OnProjectLoad (void) {
+  Project.SetTargetIF ("SWD");
+  File.Open ("C:/SurfingFiles/stm32/cmake/001-std-uart/build/Debug/001-std-uart.elf");
+  Project.SetDevice ("STM32F429BI");
+}
+
+void AfterProjectLoad(void) {
+  Project.AddSvdFile ("$(InstallDir)/Config/Peripherals/STM32F429.svd");
+}
