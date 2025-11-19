@@ -418,7 +418,7 @@ void HexToAscll(uint8_t* _pHex, char* _pAscii, uint16_t _BinBytes)
 */
 uint32_t AsciiToUint32(char* pAscii)
 {
-    char i;
+    int i;
     char bTemp;
     char bIsHex;
     char bLen;

@@ -18,6 +18,33 @@
 
 enum
 {
+    MSG_MODS_01H=1,
+    MSG_MODS_02H,
+    MSG_MODS_03H,
+    MSG_MODS_04H,
+    MSG_MODS_05H,
+    MSG_MODS_06H,
+    MSG_MODS_10H,
+
+    MSG_MODS,
+};
+
+enum
+{
+    MSG_CAN1_RxFIFO0Pending=1,
+    MSG_CAN1_RxFIFO1Pending,
+    MSG_CAN1_TxMailBox0,
+    MSG_CAN1_TxMailBox1,
+    MSG_CAN1_TxMailBox2,
+
+    MSG_CAN2_RxFIFO0Pending,
+    MSG_CAN2_RxFIFO1Pending,
+    MSG_CAN2_TxMailBox0,
+    MSG_CAN2_TxMailBox1,
+    MSG_CAN2_TxMailBox2,
+};
+enum
+{
     MSG_NONE = 0,
 
     MSG_485_RX, /* modbus 模块，接收到RS485数据. form_rs485.c, bsp_modbus.c 中引用 */

@@ -24,63 +24,15 @@
 #include "bsp.h"
 
 /*
-	该程序适用于安富莱STM32-V6开发板
+    该程序适用于安富莱STM32-V6开发板
 
-	如果用于其它硬件，请修改GPIO定义和 IsKeyDown1 - IsKeyDown8 函数
+    如果用于其它硬件，请修改GPIO定义和 IsKeyDown1 - IsKeyDown8 函数
 
-	如果用户的按键个数小于8个，你可以将多余的按键全部定义为和第1个按键一样，并不影响程序功能
-	#define KEY_COUNT    8	  这个在 bsp_key.h 文件中定义
+    如果用户的按键个数小于8个，你可以将多余的按键全部定义为和第1个按键一样，并不影响程序功能
+    #define KEY_COUNT    8	  这个在 bsp_key.h 文件中定义
 */
 
-/*
-	安富莱STM32-V5 按键口线分配：
-		K1 键      : PI8   (低电平表示按下)
-		K2 键      : PC13  (低电平表示按下)
-		K3 键      : PH4   (低电平表示按下)
-		摇杆UP键   : PH2   (低电平表示按下)
-		摇杆DOWN键 : PH3   (低电平表示按下)
-		摇杆LEFT键 : PF11  (低电平表示按下)
-		摇杆RIGHT键: PG7   (低电平表示按下)
-		摇杆OK键   : PH15  (低电平表示按下)
 
-	安富莱STM32-V6 按键口线分配：
-		K1 键      : PI8   (低电平表示按下)
-		K2 键      : PC13  (低电平表示按下)
-		K3 键      : PH4   (低电平表示按下)
-		
-		摇杆UP键   : PG2   (低电平表示按下)
-		摇杆DOWN键 : PF10   (低电平表示按下)
-		摇杆LEFT键 : PG3   (低电平表示按下)
-		摇杆RIGHT键: PG7   (低电平表示按下)
-		摇杆OK键   : PI11  (低电平表示按下)
-*/
-
-/* 按键口对应的RCC时钟 */
-#define RCC_ALL_KEY 	(RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOF | RCC_AHB1Periph_GPIOH | RCC_AHB1Periph_GPIOI | RCC_AHB1Periph_GPIOG)
-
-#define GPIO_PORT_K1    GPIOI
-#define GPIO_PIN_K1	    GPIO_Pin_8
-
-#define GPIO_PORT_K2    GPIOC
-#define GPIO_PIN_K2	    GPIO_Pin_13
-
-#define GPIO_PORT_K3    GPIOH
-#define GPIO_PIN_K3	    GPIO_Pin_4
-
-#define GPIO_PORT_K4    GPIOG
-#define GPIO_PIN_K4	    GPIO_Pin_2
-
-#define GPIO_PORT_K5    GPIOF
-#define GPIO_PIN_K5	    GPIO_Pin_10
-
-#define GPIO_PORT_K6    GPIOG
-#define GPIO_PIN_K6	    GPIO_Pin_3
-
-#define GPIO_PORT_K7    GPIOG
-#define GPIO_PIN_K7	    GPIO_Pin_7
-
-#define GPIO_PORT_K8    GPIOI
-#define GPIO_PIN_K8	    GPIO_Pin_11
 
 static KEY_T s_tBtn[KEY_COUNT];
 static KEY_FIFO_T s_tKey; /* 按键FIFO变量,结构体 */
@@ -97,106 +49,142 @@ static void bsp_DetectKey(uint8_t i);
 *	返 回 值: 返回值1 表示按下，0表示未按下
 *********************************************************************************************************
 */
-#ifdef STM32_X3		/* 安富莱 STM32-X3 开发板 */
+#ifdef STM32_X3 /* 安富莱 STM32-X3 开发板 */
 static uint8_t IsKeyDown1(void)
 {
-    if ((GPIO_PORT_K1->IDR & GPIO_PIN_K1) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K1->IDR & GPIO_PIN_K1) == 0)
+        return 1;
+    else
+        return 0;
 }
 static uint8_t IsKeyDown2(void)
 {
-    if ((GPIO_PORT_K2->IDR & GPIO_PIN_K2) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K2->IDR & GPIO_PIN_K2) == 0)
+        return 1;
+    else
+        return 0;
 }
 static uint8_t IsKeyDown3(void)
 {
-    if ((GPIO_PORT_K3->IDR & GPIO_PIN_K3) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K3->IDR & GPIO_PIN_K3) == 0)
+        return 1;
+    else
+        return 0;
 }
 static uint8_t IsKeyDown4(void)
 {
-    if ((GPIO_PORT_K4->IDR & GPIO_PIN_K4) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K4->IDR & GPIO_PIN_K4) == 0)
+        return 1;
+    else
+        return 0;
 }
 static uint8_t IsKeyDown5(void)
 {
-    if ((GPIO_PORT_K5->IDR & GPIO_PIN_K5) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K5->IDR & GPIO_PIN_K5) == 0)
+        return 1;
+    else
+        return 0;
 }
 static uint8_t IsKeyDown6(void)
 {
-    if ((GPIO_PORT_K6->IDR & GPIO_PIN_K6) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K6->IDR & GPIO_PIN_K6) == 0)
+        return 1;
+    else
+        return 0;
 }
 static uint8_t IsKeyDown7(void)
 {
-    if ((GPIO_PORT_K7->IDR & GPIO_PIN_K7) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K7->IDR & GPIO_PIN_K7) == 0)
+        return 1;
+    else
+        return 0;
 }
 static uint8_t IsKeyDown8(void)
 {
-    if ((GPIO_PORT_K8->IDR & GPIO_PIN_K8) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K8->IDR & GPIO_PIN_K8) == 0)
+        return 1;
+    else
+        return 0;
 }
-#else				/* 安富莱 STM32-V5 开发板 */
+#else /* 安富莱 STM32-V5 开发板 */
 static uint8_t IsKeyDown1(void)
 {
-    if ((GPIO_PORT_K1->IDR & GPIO_PIN_K1) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K1->IDR & GPIO_PIN_K1) == 0)
+        return 1;
+    else
+        return 0;
 }
 
 static uint8_t IsKeyDown2(void)
 {
-    if ((GPIO_PORT_K2->IDR & GPIO_PIN_K2) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K2->IDR & GPIO_PIN_K2) == 0)
+        return 1;
+    else
+        return 0;
 }
 
 static uint8_t IsKeyDown3(void)
 {
-    if ((GPIO_PORT_K3->IDR & GPIO_PIN_K3) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K3->IDR & GPIO_PIN_K3) == 0)
+        return 1;
+    else
+        return 0;
 }
 
 static uint8_t IsKeyDown4(void)
 {
-    if ((GPIO_PORT_K4->IDR & GPIO_PIN_K4) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K4->IDR & GPIO_PIN_K4) == 0)
+        return 1;
+    else
+        return 0;
 }
 
 static uint8_t IsKeyDown5(void)
 {
-    if ((GPIO_PORT_K5->IDR & GPIO_PIN_K5) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K5->IDR & GPIO_PIN_K5) == 0)
+        return 1;
+    else
+        return 0;
 }
 
 static uint8_t IsKeyDown6(void)
 {
-    if ((GPIO_PORT_K6->IDR & GPIO_PIN_K6) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K6->IDR & GPIO_PIN_K6) == 0)
+        return 1;
+    else
+        return 0;
 }
 
 static uint8_t IsKeyDown7(void)
 {
-    if ((GPIO_PORT_K7->IDR & GPIO_PIN_K7) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K7->IDR & GPIO_PIN_K7) == 0)
+        return 1;
+    else
+        return 0;
 }
 
 static uint8_t IsKeyDown8(void)
 {
-    if ((GPIO_PORT_K8->IDR & GPIO_PIN_K8) == 0) return 1;
-    else return 0;
+    if ((GPIO_PORT_K8->IDR & GPIO_PIN_K8) == 0)
+        return 1;
+    else
+        return 0;
 }
 #endif
 static uint8_t IsKeyDown9(void)
 {
-    if (IsKeyDown1() && IsKeyDown2()) return 1;
-    else return 0;
+    if (IsKeyDown1() && IsKeyDown2())
+        return 1;
+    else
+        return 0;
 }
 
 static uint8_t IsKeyDown10(void)
 {
-    if (IsKeyDown3() && IsKeyDown2()) return 1;
-    else return 0;
+    if (IsKeyDown3() && IsKeyDown2())
+        return 1;
+    else
+        return 0;
 }
 
 /*
@@ -295,10 +283,7 @@ uint8_t bsp_GetKey2(void)
 *	返 回 值: 1 表示按下， 0 表示未按下
 *********************************************************************************************************
 */
-uint8_t bsp_GetKeyState(KEY_ID_E _ucKeyID)
-{
-    return s_tBtn[_ucKeyID].State;
-}
+uint8_t bsp_GetKeyState(KEY_ID_E _ucKeyID) { return s_tBtn[_ucKeyID].State; }
 
 /*
 *********************************************************************************************************
@@ -326,10 +311,7 @@ void bsp_SetKeyParam(uint8_t _ucKeyID, uint16_t _LongTime, uint8_t _RepeatSpeed)
 *	返 回 值: 按键代码
 *********************************************************************************************************
 */
-void bsp_ClearKey(void)
-{
-    s_tKey.Read = s_tKey.Write;
-}
+void bsp_ClearKey(void) { s_tKey.Read = s_tKey.Write; }
 
 /*
 *********************************************************************************************************
@@ -400,9 +382,9 @@ static void bsp_InitKeyVar(void)
         s_tBtn[i].LongTime = KEY_LONG_TIME; /* 长按时间 0 表示不检测长按键事件 */
         s_tBtn[i].Count = KEY_FILTER_TIME / 2; /* 计数器设置为滤波时间的一半 */
         s_tBtn[i].State = 0; /* 按键缺省状态，0为未按下 */
-        //s_tBtn[i].KeyCodeDown = 3 * i + 1;				/* 按键按下的键值代码 */
-        //s_tBtn[i].KeyCodeUp   = 3 * i + 2;				/* 按键弹起的键值代码 */
-        //s_tBtn[i].KeyCodeLong = 3 * i + 3;				/* 按键被持续按下的键值代码 */
+        // s_tBtn[i].KeyCodeDown = 3 * i + 1;				/* 按键按下的键值代码 */
+        // s_tBtn[i].KeyCodeUp   = 3 * i + 2;				/* 按键弹起的键值代码 */
+        // s_tBtn[i].KeyCodeLong = 3 * i + 3;				/* 按键被持续按下的键值代码 */
         s_tBtn[i].RepeatSpeed = 0; /* 按键连发的速度，0表示不支持连发 */
         s_tBtn[i].RepeatCount = 0; /* 连发计数器 */
     }
@@ -449,12 +431,12 @@ static void bsp_DetectKey(uint8_t i)
     KEY_T* pBtn;
 
     /*
-		如果没有初始化按键函数，则报错
-		if (s_tBtn[i].IsKeyDownFunc == 0)
-		{
-			printf("Fault : DetectButton(), s_tBtn[i].IsKeyDownFunc undefine");
-		}
-	*/
+        如果没有初始化按键函数，则报错
+        if (s_tBtn[i].IsKeyDownFunc == 0)
+        {
+            printf("Fault : DetectButton(), s_tBtn[i].IsKeyDownFunc undefine");
+        }
+    */
 
     pBtn = &s_tBtn[i];
     if (pBtn->IsKeyDownFunc())

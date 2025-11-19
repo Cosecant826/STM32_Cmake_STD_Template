@@ -14,12 +14,12 @@
 #ifndef _BSP_H_
 #define _BSP_H
 
-#define STM32_V5
+#define STM32_V6
 //#define STM32_X3
 
 /* 检查是否定义了开发板型号 */
-#if !defined (STM32_V5) && !defined (STM32_X3)
-#error "Please define the board model : STM32_X3 or STM32_V5"
+#if !defined (STM32_V6) && !defined (STM32_X3)
+#error "Please define the board model : STM32_X3 or STM32_V6"
 #endif
 
 /* 定义 BSP 版本号 */
@@ -40,6 +40,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stddef.h>
+
+#include "SEGGER_RTT.h"
+#include "app.h"
 
 #ifndef TRUE
 #define TRUE  1
@@ -60,13 +64,14 @@
 #define DEBUG_GPS_TO_COM1	/* 打印GPS数据到串口1 */
 
 /* 通过取消注释或者添加注释的方式控制是否包含底层驱动模块 */
+#include "bsp_user_lib.h"
 #include "bsp_ext_io.h"
 #include "bsp_uart_fifo.h"
 #include "bsp_led.h"
 #include "bsp_timer.h"
 #include "bsp_key.h"
 
-//#include "bsp_msg.h"
+#include "bsp_msg.h"
 //#include "bsp_tim_pwm.h"
 
 //#include "bsp_cpu_flash.h"
@@ -97,7 +102,7 @@
 
 //#include "bsp_gps.h"
 //#include "bsp_oled.h"
-////#include "bsp_mg323.h"
+//#include "bsp_mg323.h"
 //#include "bsp_sim800.h"
 
 //#include "bsp_spi_bus.h"

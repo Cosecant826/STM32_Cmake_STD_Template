@@ -30,11 +30,11 @@
 void bsp_Init(void)
 {
     /*
-		由于ST固件库的启动文件已经执行了CPU系统时钟的初始化，所以不必再次重复配置系统时钟。
-		启动文件配置了CPU主时钟频率、内部Flash访问速度和可选的外部SRAM FSMC初始化。
+        由于ST固件库的启动文件已经执行了CPU系统时钟的初始化，所以不必再次重复配置系统时钟。
+        启动文件配置了CPU主时钟频率、内部Flash访问速度和可选的外部SRAM FSMC初始化。
 
-		系统时钟缺省配置为168MHz，如果需要更改，可以修改 system_stm32f4xx.c 文件
-	*/
+        系统时钟缺省配置为168MHz，如果需要更改，可以修改 system_stm32f4xx.c 文件
+    */
     //	SystemCoreClockUpdate();	/* 根据PLL配置更新系统时钟频率变量 SystemCoreClock */
     /* 优先级分组设置为4 */
     //	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);
@@ -43,6 +43,9 @@ void bsp_Init(void)
     bsp_InitLed(); /* 初始LED指示灯端口 */
     bsp_InitKey(); /* 初始化按键 */
     bsp_InitTimer(); /* 初始化系统滴答定时器 (此函数会开 systick 中断, tim2-5中断) */
+    bsp_InitMultiButtons();
+    bsp_InitMultiTimers();
+    userShellInit();
 }
 
 /*
@@ -54,10 +57,7 @@ void bsp_Init(void)
 *	返 回 值: 无
 *********************************************************************************************************
 */
-void bsp_RunPer10ms(void)
-{
-    bsp_KeyScan();
-}
+void bsp_RunPer10ms(void) { bsp_KeyScan(); }
 
 /*
 *********************************************************************************************************
@@ -68,9 +68,7 @@ void bsp_RunPer10ms(void)
 *	返 回 值: 无
 *********************************************************************************************************
 */
-void bsp_RunPer1ms(void)
-{
-}
+void bsp_RunPer1ms(void) { button_ticks(); }
 
 /*
 *********************************************************************************************************
@@ -90,7 +88,14 @@ void bsp_Idle(void)
     /* --- 让CPU进入休眠，由Systick定时中断唤醒或者其他中断唤醒 */
 
     /* 例如 emWin 图形库，可以插入图形库需要的轮询函数 */
-    //GUI_Exec();
+    // GUI_Exec();
+#ifdef MODBUS_MODE_HOST
+    MODH_Poll();
+#elif defined MODBUS_MODE_SLAVE
+    MODS_Poll();
+#endif
+    ShellIdle();
+    multiTimerYield();
 
     /* 例如 uIP 协议，可以插入uip轮询函数 */
 }

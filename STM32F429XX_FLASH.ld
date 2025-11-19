@@ -83,6 +83,11 @@ SECTIONS
     . = ALIGN(4);
     *(.text)           /* .text sections (code) */
     *(.text*)          /* .text* sections (code) */
+
+    _shell_command_start = .;
+    KEEP (*(shellCommand))
+    _shell_command_end = .;
+
     *(.glue_7)         /* glue arm to thumb code */
     *(.glue_7t)        /* glue thumb to arm code */
     *(.eh_frame)

@@ -45,24 +45,40 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
         # Add user sources here
-        BSP/src/bsp_ext_io.c
-        BSP/src/bsp_uart_fifo.c
-        BSP/src/bsp_led.c
-        BSP/src/bsp_timer.c
-        BSP/src/bsp_key.c
-        BSP/bsp.c
-        SEGGER/RTT/RTT/SEGGER_RTT.c
-        SEGGER/RTT/RTT/SEGGER_RTT_printf.c
-        SEGGER/RTT/Syscalls/SEGGER_RTT_Syscalls_GCC.c
+        Core/Src/app.c
+        User/APP/letter-shell/src/shell.c
+        User/APP/letter-shell/src/shell_ext.c
+        User/APP/letter-shell/extensions/shell_enhance/shell_cmd_group.c
+        User/APP/MultiButton/multi_button.c
+        User/APP/MultiTimer/MultiTimer.c
+        User/APP/modbus/modbus_host.c
+        User/APP/modbus/modbus_slave.c
+        User/BSP/src/bsp_ext_io.c
+        User/BSP/src/bsp_uart_fifo.c
+        User/BSP/src/bsp_led.c
+        User/BSP/src/bsp_timer.c
+        User/BSP/src/bsp_key.c
+        User/BSP/src/bsp_user_lib.c
+        User/BSP/bsp_msg.c
+        User/BSP/bsp.c
+        User/SEGGER/RTT/RTT/SEGGER_RTT.c
+        User/SEGGER/RTT/RTT/SEGGER_RTT_printf.c
+        User/SEGGER/RTT/Syscalls/SEGGER_RTT_Syscalls_GCC.c
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
         # Add user defined include paths
-        BSP
-        BSP/inc
-        SEGGER/RTT/RTT
-        SEGGER/RTT/Config
+        User/APP
+        User/APP/letter-shell/src
+        User/APP/letter-shell/extensions/shell_enhance
+        User/APP/MultiButton
+        User/APP/MultiTimer
+        User/APP/modbus
+        User/BSP
+        User/BSP/inc
+        User/SEGGER/RTT/RTT
+        User/SEGGER/RTT/Config
 )
 
 # Add project symbols (macros)

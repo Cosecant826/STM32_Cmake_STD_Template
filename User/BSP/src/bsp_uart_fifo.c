@@ -567,6 +567,8 @@ void RS485_SendStr(char* _pBuf)
     RS485_SendBuf((uint8_t*)_pBuf, strlen(_pBuf));
 }
 
+extern void MODH_ReciveNew(uint8_t _byte);
+extern void MODS_ReciveNew(uint8_t _byte);
 /*
 *********************************************************************************************************
 *	函 数 名: RS485_ReciveNew
@@ -577,6 +579,11 @@ void RS485_SendStr(char* _pBuf)
 */
 void RS485_ReciveNew(uint8_t _byte)
 {
+#ifdef MODBUS_MODE_HOST
+    MODH_ReciveNew(_byte);
+#elif defined MODBUS_MODE_SLAVE
+    MODS_ReciveNew(_byte);
+#endif
 }
 
 /*
@@ -909,7 +916,7 @@ static void InitHardUart(void)
     /* 第2步： 配置串口硬件参数 */
     USART_InitStructure.USART_BaudRate = UART3_BAUD; /* 波特率 */
     USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-    USART_InitStructure.USART_StopBits = USART_StopBits_1;
+    USART_InitStructure.USART_StopBits = USART_StopBits_2;
     USART_InitStructure.USART_Parity = USART_Parity_No;
     USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
     USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;

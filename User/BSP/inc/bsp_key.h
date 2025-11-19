@@ -14,6 +14,57 @@
 #ifndef __BSP_KEY_H
 #define __BSP_KEY_H
 
+/*
+    安富莱STM32-V5 按键口线分配：
+        K1 键      : PI8   (低电平表示按下)
+        K2 键      : PC13  (低电平表示按下)
+        K3 键      : PH4   (低电平表示按下)
+        摇杆UP键   : PH2   (低电平表示按下)
+        摇杆DOWN键 : PH3   (低电平表示按下)
+        摇杆LEFT键 : PF11  (低电平表示按下)
+        摇杆RIGHT键: PG7   (低电平表示按下)
+        摇杆OK键   : PH15  (低电平表示按下)
+
+    安富莱STM32-V6 按键口线分配：
+        K1 键      : PI8   (低电平表示按下)
+        K2 键      : PC13  (低电平表示按下)
+        K3 键      : PH4   (低电平表示按下)
+
+        摇杆UP键   : PG2   (低电平表示按下)
+        摇杆DOWN键 : PF10   (低电平表示按下)
+        摇杆LEFT键 : PG3   (低电平表示按下)
+        摇杆RIGHT键: PG7   (低电平表示按下)
+        摇杆OK键   : PI11  (低电平表示按下)
+*/
+
+/* 按键口对应的RCC时钟 */
+#define RCC_ALL_KEY \
+(RCC_AHB1Periph_GPIOC | RCC_AHB1Periph_GPIOF | RCC_AHB1Periph_GPIOH | RCC_AHB1Periph_GPIOI | RCC_AHB1Periph_GPIOG)
+
+#define GPIO_PORT_K1 GPIOI
+#define GPIO_PIN_K1 GPIO_Pin_8
+
+#define GPIO_PORT_K2 GPIOC
+#define GPIO_PIN_K2 GPIO_Pin_13
+
+#define GPIO_PORT_K3 GPIOH
+#define GPIO_PIN_K3 GPIO_Pin_4
+
+#define GPIO_PORT_K4 GPIOG
+#define GPIO_PIN_K4 GPIO_Pin_2
+
+#define GPIO_PORT_K5 GPIOF
+#define GPIO_PIN_K5 GPIO_Pin_10
+
+#define GPIO_PORT_K6 GPIOG
+#define GPIO_PIN_K6 GPIO_Pin_3
+
+#define GPIO_PORT_K7 GPIOG
+#define GPIO_PIN_K7 GPIO_Pin_7
+
+#define GPIO_PORT_K8 GPIOI
+#define GPIO_PIN_K8 GPIO_Pin_11
+
 #define KEY_COUNT    10	   					/* 按键个数, 8个独立建 + 2个组合键 */
 
 /* 根据应用程序的功能重命名按键宏 */

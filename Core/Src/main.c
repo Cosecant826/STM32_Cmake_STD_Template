@@ -12,7 +12,6 @@ int main(void)
     uint8_t ucKeyCode;
     int16_t count = 0;
     uint8_t fRefresh = 0;
-    uint8_t read;
 
     /*
         ST固件库中的启动文件已经执行了 SystemInit() 函数，该函数在 system_stm32f4xx.c 文件，主要功能是
@@ -20,7 +19,7 @@ int main(void)
     */
     bsp_Init(); /* 硬件初始化 */
 
-    fRefresh = 1;
+    fRefresh = 0;
     /* 主程序大循环 */
     while (1)
     {
@@ -43,30 +42,6 @@ int main(void)
                 comSendBuf(COM1, (uint8_t*)buf, strlen(buf));
             }
 #endif
-        }
-
-        if (comGetChar(COM1, &read))
-        {
-            switch (read)
-            {
-            case '1':
-                bsp_LedToggle(1);
-                break;
-
-            case '2':
-                bsp_LedToggle(2);
-                break;
-
-            case '3':
-                bsp_LedToggle(3);
-                break;
-
-            case '4':
-                bsp_LedToggle(4);
-                break;
-            default:
-                break;
-            }
         }
 
         /* 处理按键事件 */
